@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
-const method = require('./methods')
 const mysqlConnection = require('./dbconfig')
+
 const post = require('./models/postModel')
 const comment = require('./models/commentModel')
 

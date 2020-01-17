@@ -12,7 +12,9 @@ const sql = method.createTable(column.table,
   [
       column.postID, 
       column.comment
-  ], column.id);
+  ], 
+  column.id);
+
 mysqlConnection.query(sql, (err, result) => {
 if (err) throw err;
   console.log(`${column.table} created`);

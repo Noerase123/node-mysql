@@ -16,8 +16,8 @@ const sql = method.createTable(column.table,
   column.id);
 
 mysqlConnection.query(sql, (err, result) => {
-if (err) throw err;
-console.log(`${column.table} created`);
+  if (err) throw err;
+  console.log(`${column.table} created`);
 });
 
 module.exports = mysqlConnection

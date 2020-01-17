@@ -1,9 +1,9 @@
-exports.selectAll = (tbl) => {
-    return `SELECT * FROM ${tbl}`;
+exports.selectAll = (tbl, select = '*') => {
+    return `SELECT ${select} FROM ${tbl}`;
 }
 
 exports.selectId = (tbl, objId) => {
-    return `SELECT * FROM ${tbl} WHERE ${objId}`
+    return `SELECT * FROM ${tbl} WHERE ${Object.keys(objId)} = ${Object.values(objId)}`
 }
 
 exports.add = (tbl, field = {}) => {
@@ -11,7 +11,7 @@ exports.add = (tbl, field = {}) => {
 }
 
 exports.update = (tbl, field = [], objId) => {
-    return `UPDATE ${tbl} SET ${field} WHERE ${objId}`
+    return `UPDATE ${tbl} SET ${field} WHERE ${Object.keys(objId)} = ${Object.values(objId)}`
 }
 
 exports.delete = (tbl, objId = {}) => {
@@ -19,5 +19,5 @@ exports.delete = (tbl, objId = {}) => {
 }
 
 exports.createTable = (tbl, column, primaryKey = 'id') => {
-    return `CREATE TABLE IF NOT EXISTS ${tbl} ( ${primaryKey} BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY, ${column}`
+    return `CREATE TABLE IF NOT EXISTS ${tbl} ( ${primaryKey} BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY, ${column})`
 }

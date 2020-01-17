@@ -3,7 +3,7 @@ var router = express.Router();
 const mysqlConnection = require('../dbconfig')
 const method = require('../methods')
 
-const tbl = 'tbl_post'
+const tbl = 'tbl_comment'
 
 router.get('/', (req, res) => {
   mysqlConnection.query(method.selectAll(tbl), (err, rows, fields) => {
@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
       })
   } 
   else {
-    mysqlConnection.query(method.selectId(tbl, {post_id: '?'}), [id], (err, row, fields) => {
+    mysqlConnection.query(method.selectId(tbl, {comment_id: '?'}), [id], (err, row, fields) => {
         if (!err) {
             res.status(200).json(row[0]);
             console.log(row[0])
@@ -40,22 +40,31 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   let contain = req.body;
-  const col = {
-      name: '?',
-      body: '?'
+  if (Number.isNaN(contain.postID)) {
+      
+    const col = {
+        postID: '?',
+        comment: '?'
+    }
+    const sql = method.add(tbl,col)
+    mysqlConnection.query(sql, [contain.postID, contain.comment], (err, rows, fields) => {
+        if (!err) {
+        res.status(201).json({
+            message: 'comment added successfully'
+        })
+        }
+        else {
+        res.status(500).json(err)
+        console.log(err);
+        }
+    })
   }
-  const sql = method.add(tbl,col)
-  mysqlConnection.query(sql, [contain.name, contain.body], (err, rows, fields) => {
-    if (!err) {
-      res.status(201).json({
-        message: 'post added successfully'
-      })
+  else {
+    res.status(500).json({
+        message: `you cannot convert ${typeof contain.postID} to Integer`
+    })
     }
-    else {
-      res.status(500).json(err)
-      console.log(err);
-    }
-  })
+
 });
 
 router.put('/:id', (req, res) => {
@@ -66,13 +75,13 @@ router.put('/:id', (req, res) => {
       })
   }
   const col = [
-      'name = ?',
-      'body = ?'
+      'postID = ?',
+      'comment = ?'
   ]
   let contain = req.body;
 //   var sql = `UPDATE tbl_post SET name = ?, body = ? WHERE id = ?`;
-var sql = method.update(tbl, col, {post_id: '?'});
-  mysqlConnection.query(sql, [contain.name, contain.body, id], (err, rows, fields) => {
+var sql = method.update(tbl, col, {comment_id: '?'});
+  mysqlConnection.query(sql, [contain.postID, contain.comment, id], (err, rows, fields) => {
     if (!err)
       res.status(200).json({
         message: 'updated successfully'
@@ -91,7 +100,7 @@ router.delete('/:id', (req, res) => {
       })
   }
 //   const sql = 'DELETE FROM tbl_post WHERE id = ?'
-  const sql = method.delete(tbl, {post_id: '?'})
+  const sql = method.delete(tbl, {comment_id: '?'})
   mysqlConnection.query(sql, [id], (err, rows, fields) => {
     if (!err)
       res.status(200).json({
