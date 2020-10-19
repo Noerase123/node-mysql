@@ -6,19 +6,23 @@ var logger = require('morgan');
 const cors = require('cors')
 const mysqlConnection = require('./dbconfig')
 
-const post = require('./models/postModel')
-const comment = require('./models/commentModel')
+const {
+  postModel, 
+  commentModel, 
+  roomModel 
+} = require('./models/apiModels')
 
 const apiRouter = require('./routes/api');
 
 var app = express();
 
-mysqlConnection.connect((err) => {
+mysqlConnection.connect(err => {
   if (!err) {
     console.log('Connection Established Successfully');
 
-    app.use(post())
-    app.use(comment())
+    app.use(postModel.connect)
+    app.use(commentModel.connect)
+    app.use(roomModel.connect)
 
   }
   else {

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mysqlConnection = require('../dbconfig')
-const method = require('../methods')
+const method = require('../methods/methods')
 
 const tbl = 'tbl_post'
 

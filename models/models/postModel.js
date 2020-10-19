@@ -1,8 +1,10 @@
-const mysqlConnection = require('../dbconfig')
-const method = require('../methods')
+const mysqlConnection = require('../../dbconfig')
+const method = require('../../methods/methods')
+
+const tbl = 'tbl_post'
 
 const column = {
-  table: 'tbl_post',
+  table: tbl,
   id: 'post_id',
   name: 'name VARCHAR(255)',
   body: 'body VARCHAR(255)'
@@ -20,4 +22,6 @@ mysqlConnection.query(sql, (err, result) => {
   console.log(`${column.table} created`);
 });
 
-module.exports = mysqlConnection
+module.exports.connect = mysqlConnection
+
+module.exports.table = tbl
